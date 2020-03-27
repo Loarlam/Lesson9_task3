@@ -23,11 +23,9 @@ namespace Task3
             myDel = new MyDelegate[amountOfElement];
             int result = 0;
 
-            Random random = new Random();
-
             for (int i = 0; i < myDel.Length; i++)
-            {
-                myDel[i] = () => random.Next(200);
+            {                
+                myDel[i] = () => ReturnRandomIntDigit();
             }
 
             myDelMas = myDel =>
@@ -38,6 +36,11 @@ namespace Task3
                 }
                 return result / myDel.Length;
             };
+
+            int ReturnRandomIntDigit()
+            {
+                return new Random().Next(200);
+            }
 
             Console.ReadKey();
         }
