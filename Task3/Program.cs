@@ -8,41 +8,51 @@ namespace Task3
 {
     class Program
     {
-        delegate int MyDelegateMas(MyDelegate[] myDel);
+        delegate string MyDelegateMas(MyDelegate[] myDel);
         delegate int MyDelegate();
 
         static void Main(string[] args)
         {
             MyDelegate[] myDel;
             MyDelegateMas myDelMas;
-            int amountOfElement;
+            int amountOfElement = 0, result = 0;
 
             Console.Write("Количество элементов: ");
             amountOfElement = Int32.Parse(Console.ReadLine());
 
             myDel = new MyDelegate[amountOfElement];
-            int result = 0;
 
             for (int i = 0; i < myDel.Length; i++)
-            {                
+            {
                 myDel[i] = () => ReturnRandomIntDigit();
             }
 
             myDelMas = myDel =>
             {
+                int temporaryVariable = 0;
                 for (int i = 0; i < myDel.Length; i++)
                 {
-                    result = myDel[i]();
+                    temporaryVariable = 0;
+                    temporaryVariable = myDel[i]();                
+
+                    if (i == 0) Console.Write($"({temporaryVariable} + ");
+
+                    else if (i == myDel.Length - 1) Console.Write($"{temporaryVariable}) / {myDel.Length} = ");
+
+                    else Console.Write($"{temporaryVariable} + ");
+
+                    result += temporaryVariable;
                 }
-                return result / myDel.Length;
+                return $"{result / myDel.Length}.{result%myDel.Length}";
             };
+
+            Console.Write($"{myDelMas(myDel)}");
+            Console.ReadKey();
 
             int ReturnRandomIntDigit()
             {
                 return new Random().Next(200);
             }
-
-            Console.ReadKey();
         }
     }
 }
